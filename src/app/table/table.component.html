@@ -1,0 +1,99 @@
+<div>
+    <div class="flex flex-row">
+      @for (button of buttons; track button; let  i = $index) {
+        <button class="p-4 
+          {{ button.selected ? 'bg-gray-100 border-t-2 border-blue-500 font-bold' : 'bg-gray-300 border-r-2 border-gray-500' }}" 
+          (click)="toggleSelection(button)">
+          {{ button.name }}
+        </button>
+      }
+    </div>
+    <div class="bg-gray-100">
+      <div class="flex justify-end">
+        <button>
+          <fa-icon [icon]="faMagnifyingGlass" class="px-5"></fa-icon>
+        </button>
+        <button>
+          <fa-icon [icon]="faDownload" class="px-3"></fa-icon>
+        </button>
+        <button class="bg-blue-700 text-white p-5">
+          Buscar
+        </button>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                (change)="$event ? toggleAllRows() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="of">
+            <th mat-header-cell *matHeaderCellDef class="bg-gray-300"> OF </th>
+            <td mat-cell *matCellDef="let element"> {{element.of}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="chave">
+          <th mat-header-cell *matHeaderCellDef class="bg-gray-500"> Chave </th>
+          <td mat-cell *matCellDef="let element"> {{element.chave !== null ? element.chave : "sem chave"}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="usti">
+          <th mat-header-cell *matHeaderCellDef class="bg-gray-500"> USTI </th>
+          <td mat-cell *matCellDef="let element"> {{element.usti}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acionamento">
+          <th mat-header-cell *matHeaderCellDef class="bg-gray-500"> Acionamento </th>
+          <td mat-cell *matCellDef="let element"> {{element.acionamento}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="colaborador">
+          <th mat-header-cell *matHeaderCellDef class="bg-gray-500"> Colaborador </th>
+          <td mat-cell *matCellDef="let element"> {{element.colaborador}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gecap">
+          <th mat-header-cell *matHeaderCellDef class="bg-gray-500"> Gecap </th>
+          <td mat-cell *matCellDef="let element"> {{element.gecap}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef class="bg-gray-500"> Valor R$ </th>
+          <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef class="bg-gray-500"> Status </th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.status}} 
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      </table>
+
+      <div class="mat-paginator-container">
+        <mat-paginator
+          [length]="dataSource.data.length"
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 25]"
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+</div>
