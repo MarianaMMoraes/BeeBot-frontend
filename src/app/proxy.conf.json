@@ -1,0 +1,7 @@
+{
+    "/API": {
+        "target": "https://tvexemplo.com.br/API/DadosOF.php",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

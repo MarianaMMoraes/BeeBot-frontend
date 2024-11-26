@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HeaderComponent } from "./header/header.component";
 import { TableComponent } from "./table/table.component";
 import { CardComponent } from "./card/card.component";
+import { RequestsService } from './requests.service';
 
 @Component({
   selector: 'app-root',
@@ -33,4 +34,31 @@ import { CardComponent } from "./card/card.component";
 })
 export class AppComponent {
   title = 'BeeBotFront';
+
+  ofsData: any = [];
+
+  constructor(private requestService: RequestsService) {
+    this.requestService.getQuantiadeOfs().subscribe({
+      next: (data) => {
+        console.log('Data received:', data);
+        this.ofsData = data;
+      },
+      error: (err) => {
+        console.error('Error occurred:', err);
+      }
+    });
+  }
+}
+
+interface ofs {
+  id_geral: number,
+  nome_colaborador: string,
+  chave_C: string,
+  id_ibm: number,
+  gecap: string,
+  sigla: string,
+  email_ibm: string,
+  email_RT: string,
+  chave_RT: string,
+  nome_RT: string
 }
